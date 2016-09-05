@@ -19,6 +19,8 @@ import java.util.TimeZone;
 
 public class TimestampJsonDeserializer implements JsonDeserializer<Date> {
 
+    private static final String TAG = TimestampJsonDeserializer.class.getSimpleName();
+
     @Override
     public Date deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
         String date = element.getAsString();
@@ -30,7 +32,7 @@ public class TimestampJsonDeserializer implements JsonDeserializer<Date> {
         try {
             return formater.parse(date);
         } catch (ParseException e) {
-            Log.e("SUMERA", "Failed to parse Date due to:", e);
+            Log.e(TAG, "Failed to parse Date due to:", e);
             return null;
         }
     }
