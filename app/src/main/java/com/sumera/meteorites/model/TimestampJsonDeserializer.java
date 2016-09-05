@@ -24,7 +24,7 @@ public class TimestampJsonDeserializer implements JsonDeserializer<Date> {
         String date = element.getAsString();
 
         TimeZone tz = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss"); // Quoted "Z" to indicate UTC, no timezone offset
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
         formater.setTimeZone(tz);
 
         try {

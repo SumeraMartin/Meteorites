@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +22,7 @@ import okhttp3.Response;
 
 public class MeteoritesProvider {
 
-    public static class CantProvideMeteoritesException extends Exception { }
+    private static final String TAG = MeteoritesProvider.class.getSimpleName();
 
     private static final String URL = "https://data.nasa.gov/resource/y77d-th95.json";
 
@@ -34,11 +32,11 @@ public class MeteoritesProvider {
 
     private static final int DEFAULT_YEAR = 2011;
 
-    public static List<Meteorite> getMeteorites() throws CantProvideMeteoritesException {
+    public static List<Meteorite> getMeteorites() throws CannotProvideDataException {
         return getMeteoritesFromYear(DEFAULT_YEAR);
     }
 
-    private static List<Meteorite> getMeteoritesFromYear(int year) throws CantProvideMeteoritesException {
+    private static List<Meteorite> getMeteoritesFromYear(int year) throws CannotProvideDataException {
         String query = String.format(YEAR_QUERY, "" + year + "-01-01T00:00:00.000");
         query = urlEncode(query);
         String url = URL + "?" + QUERY_PARAM + "=" + query;
@@ -47,11 +45,11 @@ public class MeteoritesProvider {
 
         try {
             List<Meteorite> meteorites = getMeteorites(request);
-            sortByMass(meteorites);
+            Meteorite.sortByMass(meteorites);
             return meteorites;
         } catch (IOException e) {
-            Log.d("SUMERA", e.toString());
-            throw new MeteoritesProvider.CantProvideMeteoritesException();
+            Log.e(TAG, e.toString());
+            throw new CannotProvideDataException("Can't access meteorites data from server");
         }
     }
 
@@ -75,17 +73,9 @@ public class MeteoritesProvider {
         try {
             return URLEncoder.encode(url, "utf-8");
         } catch (UnsupportedEncodingException e) {
-            Log.e("SUMERA", e.toString());
+            Log.e(TAG, e.toString());
             return "";
         }
     }
 
-    private static void sortByMass(List<Meteorite> meteorites) {
-        Collections.sort(meteorites, new Comparator<Meteorite>() {
-            @Override
-            public int compare(Meteorite lhs, Meteorite rhs) {
-                return rhs.getMass().compareTo(lhs.getMass());
-            }
-        });
-    }
 }

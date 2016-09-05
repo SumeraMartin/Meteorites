@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by martin on 05/09/16.
@@ -58,6 +61,15 @@ public class Meteorite {
 
     public String getLongtitude() {
         return m_longtitude;
+    }
+
+    public static void sortByMass(List<Meteorite> meteorites) {
+        Collections.sort(meteorites, new Comparator<Meteorite>() {
+            @Override
+            public int compare(Meteorite lhs, Meteorite rhs) {
+                return rhs.getMass().compareTo(lhs.getMass());
+            }
+        });
     }
 
 }
