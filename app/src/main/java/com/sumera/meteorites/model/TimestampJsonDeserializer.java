@@ -17,6 +17,10 @@ import java.util.TimeZone;
  * Created by martin on 05/09/16.
  */
 
+
+/**
+ * Deserialize floating_timestamp type without timezone information
+ */
 public class TimestampJsonDeserializer implements JsonDeserializer<Date> {
 
     private static final String TAG = TimestampJsonDeserializer.class.getSimpleName();

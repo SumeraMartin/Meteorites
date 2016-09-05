@@ -38,8 +38,7 @@ public class MeteoritesProvider {
 
     private static List<Meteorite> getMeteoritesFromYear(int year) throws CannotProvideDataException {
         String query = String.format(YEAR_QUERY, "" + year + "-01-01T00:00:00.000");
-        query = urlEncode(query);
-        String url = URL + "?" + QUERY_PARAM + "=" + query;
+        String url = URL + "?" + QUERY_PARAM + "=" + urlEncode(query);
 
         Request request = new Request.Builder().url(url).build();
 
@@ -74,7 +73,7 @@ public class MeteoritesProvider {
             return URLEncoder.encode(url, "utf-8");
         } catch (UnsupportedEncodingException e) {
             Log.e(TAG, e.toString());
-            return "";
+            throw new CannotProvideDataException("Unsupported encoding operation during query creation");
         }
     }
 
