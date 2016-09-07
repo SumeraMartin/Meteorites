@@ -2,6 +2,8 @@ package com.sumera.meteorites.model;
 
 import android.util.Log;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,7 +13,9 @@ import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.realm.RealmObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,18 +36,18 @@ public class MeteoritesProvider {
 
     private static final int DEFAULT_YEAR = 2011;
 
+    private static final int REQUEST_TIMEOUT_IN_SECONDS = 5;
+
     public static List<Meteorite> getMeteorites() throws CannotProvideDataException {
-        return getMeteoritesFromYear(DEFAULT_YEAR);
+        List<Meteorite> meteorites = getMeteoritesFromServer(DEFAULT_YEAR);
+        MeteoritesCache.saveMeteorites(meteorites);
+        return meteorites;
     }
 
-    private static List<Meteorite> getMeteoritesFromYear(int year) throws CannotProvideDataException {
-        String query = String.format(YEAR_QUERY, "" + year + "-01-01T00:00:00.000");
-        String url = URL + "?" + QUERY_PARAM + "=" + urlEncode(query);
-
-        Request request = new Request.Builder().url(url).build();
-
+    private static List<Meteorite> getMeteoritesFromServer(int sinceYear) throws CannotProvideDataException {
+        Request request = createRequest(sinceYear);
         try {
-            List<Meteorite> meteorites = getMeteorites(request);
+            List<Meteorite> meteorites = getMeteoritesFromRequest(request);
             Meteorite.sortByMass(meteorites);
             return meteorites;
         } catch (IOException e) {
@@ -52,20 +56,46 @@ public class MeteoritesProvider {
         }
     }
 
-    private static List<Meteorite> getMeteorites(Request request) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+    private static List<Meteorite> getMeteoritesFromRequest(Request request) throws IOException {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(REQUEST_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(REQUEST_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
+                .build();
+
         Response response = client.newCall(request).execute();
 
         if (!response.isSuccessful()) {
             throw new IOException("Unexpected code " + response);
         }
 
-        Type type = new TypeToken<List<Meteorite>>(){}.getType();
+        return createFromJson(response.body().string());
+    }
 
+    private static List<Meteorite> createFromJson(String jsonData) {
+        Type type = new TypeToken<List<Meteorite>>(){}.getType();
+        Log.d("sumera", jsonData);
         return new GsonBuilder()
                 .registerTypeAdapter(Date.class, new TimestampJsonDeserializer())
+                .setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return f.getDeclaringClass().equals(RealmObject.class);
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return false;
+                    }
+                })
                 .create()
-                .fromJson(response.body().string(), type);
+                .fromJson(jsonData, type);
+    }
+
+    private static Request createRequest(int sinceYear) {
+        String query = String.format(YEAR_QUERY, "" + sinceYear + "-01-01T00:00:00.000");
+        String url = URL + "?" + QUERY_PARAM + "=" + urlEncode(query);
+        Log.e("Sumera", url);
+        return new Request.Builder().url(url).build();
     }
 
     private static String urlEncode(String url) {

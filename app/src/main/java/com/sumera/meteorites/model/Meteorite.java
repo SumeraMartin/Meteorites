@@ -2,72 +2,107 @@ package com.sumera.meteorites.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by martin on 05/09/16.
  */
 
-public class Meteorite {
+public class Meteorite extends RealmObject {
+
+    @PrimaryKey
+    @SerializedName("id")
+    private String id;
 
     @SerializedName("name")
-    private String m_name;
-
-    @SerializedName("id")
-    private String m_id;
+    private String name;
 
     @SerializedName("recclass")
-    private String m_recclass;
+    private String recclass;
 
     @SerializedName("mass")
-    private BigDecimal m_mass;
+    private double mass;
 
     @SerializedName("year")
-    private Timestamp m_year;
+    private Date year;
 
     @SerializedName("reclat")
-    private String m_langtitude;
+    private String langtitude;
 
     @SerializedName("reclong")
-    private String m_longtitude;
+    private String longtitude;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRecclass(String recclass) {
+        this.recclass = recclass;
+    }
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
+
+    public void setYear(Date year) {
+        this.year = year;
+    }
+
+    public void setLangtitude(String langtitude) {
+        this.langtitude = langtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
+    }
 
     public String getName() {
-        return m_name;
+        return name;
     }
 
     public String getId() {
-        return m_id;
+        return id;
     }
 
     public String getRecclass() {
-        return m_recclass;
+        return recclass;
     }
 
-    public BigDecimal getMass() {
-        return m_mass;
+    public double getMass() {
+        return mass;
     }
 
-    public Timestamp getYear() {
-        return m_year;
+    public Date getYear() {
+        return year;
     }
 
     public String getLangtitude() {
-        return m_langtitude;
+        return langtitude;
     }
 
     public String getLongtitude() {
-        return m_longtitude;
+        return longtitude;
     }
 
+    /**
+     * Sort from biggest mass to smallest
+     * @param meteorites
+     */
     public static void sortByMass(List<Meteorite> meteorites) {
         Collections.sort(meteorites, new Comparator<Meteorite>() {
             @Override
             public int compare(Meteorite lhs, Meteorite rhs) {
-                return rhs.getMass().compareTo(lhs.getMass());
+                return Double.valueOf(rhs.getMass()).compareTo(lhs.getMass());
             }
         });
     }
