@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -18,42 +17,41 @@ import rx.schedulers.Schedulers;
 /**
  * RxAndroid wrapper for data provider.
  */
-public class MeteoritesRequest {
+public class MeteoritesRequest implements Callable<List<Meteorite>> {
 
-    private Action0 m_onBeforeAsyncTaskAction = null;
-
-    public void setActionBeforeAsyncTask(Action0 beforeAsyncTaskAction) {
-        m_onBeforeAsyncTaskAction =  beforeAsyncTaskAction;
+    @Override
+    public List<Meteorite> call() throws Exception {
+        return MeteoritesProvider.getMeteorites();
     }
 
-    public Subscription getMeteorites(Action1<List<Meteorite>> onAction, Action1<Throwable> onError) {
-        Observable<List<Meteorite>> observable = null;
+    public static Subscription getMeteorites(Action1<List<Meteorite>> onAction, Action1<Throwable> onError) {
         if(MeteoritesCache.isDatatabaseUpdated()) {
-            observable = createCacheRequestObservable();
-        } else {
-            m_onBeforeAsyncTaskAction.call();
-            observable = createNetworkRequestObservable();
+            return createCacheObservable(onAction, onError);
         }
 
-        return observable
+        return createNetworkObservable(onAction, onError);
+    }
+
+    public static Subscription getMeteoritesFromNetwork(Action1<List<Meteorite>> onAction, Action1<Throwable> onError) {
+        return createNetworkObservable(onAction, onError);
+    }
+
+    private static Subscription createCacheObservable(Action1<List<Meteorite>> onAction, Action1<Throwable> onError) {
+        return Observable.just(MeteoritesCache.getMeteorites())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onAction, onError);
     }
 
-    private Observable<List<Meteorite>> createCacheRequestObservable() {
-        return Observable.just(MeteoritesCache.getMeteorites());
-    }
-
-    private Observable<List<Meteorite>> createNetworkRequestObservable() {
-        return Observable
-                .fromCallable(new Callable<List<Meteorite>>() {
+    private static Subscription createNetworkObservable(Action1<List<Meteorite>> onAction, Action1<Throwable> onError) {
+        return Observable.fromCallable(new Callable<List<Meteorite>>() {
                     @Override
                     public List<Meteorite> call() throws Exception {
                         return MeteoritesProvider.getMeteorites();
                     }
                 })
                 .timeout(5, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onAction, onError);
     }
-
 }

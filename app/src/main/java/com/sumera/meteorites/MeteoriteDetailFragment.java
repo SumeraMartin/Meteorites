@@ -93,17 +93,8 @@ public class MeteoriteDetailFragment extends Fragment implements
             m_googleMap.setInfoWindowAdapter(new MeteoriteInfoWindowAdapter(getActivity().getLayoutInflater()));
         }
 
-        /**
-         * When
-         */
         if(m_meteorites.size() == 1) {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showMeteoriteWithInfoWindow(0);
-                }
-            }, 100);
+            showMeteoriteWithInfoDelayed();
         }
 
     }
@@ -124,34 +115,52 @@ public class MeteoriteDetailFragment extends Fragment implements
         m_meteorites = meteorites;
     }
 
-    public void showMeteoriteOnPositionWithInfoWi
+    /**
+     * When marker was added right after onMapReady(GoogleMap map) animation wasn't working correct.
+     * Small delay solved problem.
+     */
+    public void showMeteoriteWithInfoDelayed() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showMeteoriteWithInfoWindow(0);
+            }
+        }, 100);
+    }
 
     public void showMeteoritesDataFromToIndex(int from, int to) {
         if(m_googleMap != null && m_meteorites.size() > to) {
             m_googleMap.clear();
-
             addMeteoritesMarkers(m_meteorites.subList(from, to));
         }
     }
 
     public void showMeteoriteWithInfoWindow(int position) {
+        if(m_googleMap == null) {
+            return;
+        }
+
+        showMeteoriteWithInfoWindow(m_meteorites.get(position));
+    }
+
+    private void showMeteoriteWithInfoWindow(Marker marker) {
+        Meteorite meteorite = (Meteorite) marker.getTag();
+        showMeteoriteWithInfoWindow(meteorite);
+    }
+
+    private void showMeteoriteWithInfoWindow(Meteorite meteorite) {
         hideInfoWindowIfPossible();
         m_googleMap.clear();
-
-        Meteorite meteorite = m_meteorites.get(position);
 
         Marker marker = addMeteoriteMarkerWithInfoWindow(meteorite);
         animateCameraToInfoWindow(marker);
     }
 
-    private void showMeteoriteWithInfoWindow(Marker marker) {
-        hideInfoWindowIfPossible();
-        m_googleMap.clear();
-
-        marker = addMarker(marker.getTitle(), marker.getPosition());
-
+    private Marker addMeteoriteMarkerWithInfoWindow(Meteorite meteorite) {
+        Marker marker = addMeteoriteMarker(meteorite);
         openInfoWindow(marker);
-        animateCameraToInfoWindow(marker);
+        return marker;
     }
 
     private void openInfoWindow(Marker marker) {
@@ -170,27 +179,19 @@ public class MeteoriteDetailFragment extends Fragment implements
         animateCameraToZoomOnMarkerBounds(latLngBuilder);
     }
 
-    private Marker addMeteoriteMarkerWithInfoWindow(Meteorite meteorite) {
-        Marker marker = addMeteoriteMarker(meteorite);
-        openInfoWindow(marker);
-        return marker;
-    }
-
     private Marker addMeteoriteMarker(Meteorite meteorite) {
-        double langtitude = Double.parseDouble(meteorite.getLangtitude());
-        double longtitude = Double.parseDouble(meteorite.getLongtitude());
-        LatLng position = new LatLng(langtitude, longtitude);
+        double latitude = Double.parseDouble(meteorite.getLatitude());
+        double longitude = Double.parseDouble(meteorite.getLongitude());
+        LatLng position = new LatLng(latitude, longitude);
 
-        return addMarker(meteorite.getName(), position);
-    }
-
-    private Marker addMarker(String title, LatLng position) {
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(position)
-                .title(title)
                 .icon(BitmapDescriptorFactory.defaultMarker());
 
-        return m_googleMap.addMarker(markerOptions);
+        Marker marker = m_googleMap.addMarker(markerOptions);
+        marker.setTag(meteorite);
+
+        return marker;
     }
 
     private void animateCameraToInfoWindow(Marker marker) {

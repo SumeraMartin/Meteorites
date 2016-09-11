@@ -33,10 +33,10 @@ public class Meteorite extends RealmObject {
     private Date year;
 
     @SerializedName("reclat")
-    private String langtitude;
+    private String latitude;
 
     @SerializedName("reclong")
-    private String longtitude;
+    private String longitude;
 
     public void setId(String id) {
         this.id = id;
@@ -58,12 +58,12 @@ public class Meteorite extends RealmObject {
         this.year = year;
     }
 
-    public void setLangtitude(String langtitude) {
-        this.langtitude = langtitude;
+    public void setLatitude(String langtitude) {
+        this.latitude = langtitude;
     }
 
-    public void setLongtitude(String longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(String longtitude) {
+        this.longitude = longtitude;
     }
 
     public String getName() {
@@ -86,17 +86,16 @@ public class Meteorite extends RealmObject {
         return year;
     }
 
-    public String getLangtitude() {
-        return langtitude;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public String getLongtitude() {
-        return longtitude;
+    public String getLongitude() {
+        return longitude;
     }
 
     /**
-     * Sort from biggest mass to smallest
-     * @param meteorites
+     * Sort from biggest to smallest mass
      */
     public static void sortByMass(List<Meteorite> meteorites) {
         Collections.sort(meteorites, new Comparator<Meteorite>() {

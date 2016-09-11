@@ -3,6 +3,7 @@ package com.sumera.meteorites.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -13,7 +14,7 @@ public class RecyclerViewLineDivider extends RecyclerView.ItemDecoration {
     private Drawable m_divider;
 
     public RecyclerViewLineDivider(Context context) {
-        m_divider = context.getResources().getDrawable(R.drawable.line_divider);
+        m_divider = ResourcesCompat.getDrawable(context.getResources(), R.drawable.line_divider, null);
     }
 
     @Override

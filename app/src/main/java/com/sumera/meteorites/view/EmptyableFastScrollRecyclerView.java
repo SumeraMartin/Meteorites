@@ -17,17 +17,17 @@ public class EmptyableFastScrollRecyclerView extends RecyclerView {
     final private AdapterDataObserver observer = new AdapterDataObserver() {
         @Override
         public void onChanged() {
-            checkIsIsAdapterEmpty();
+            checkIfIsAdapterEmpty();
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            checkIsIsAdapterEmpty();
+            checkIfIsAdapterEmpty();
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            checkIsIsAdapterEmpty();
+            checkIfIsAdapterEmpty();
         }
     };
 
@@ -43,7 +43,7 @@ public class EmptyableFastScrollRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
-    private void checkIsIsAdapterEmpty() {
+    private void checkIfIsAdapterEmpty() {
         if (m_emptyView != null && getAdapter() != null) {
             final boolean emptyViewVisible = getAdapter().getItemCount() == 0;
             m_emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
@@ -67,16 +67,16 @@ public class EmptyableFastScrollRecyclerView extends RecyclerView {
             adapter.registerAdapterDataObserver(observer);
         }
 
-        checkIsIsAdapterEmpty();
+        checkIfIsAdapterEmpty();
     }
 
     public void setEmptyView(View emptyView) {
         m_emptyView = emptyView;
-        checkIsIsAdapterEmpty();
+        checkIfIsAdapterEmpty();
     }
 
     public void setFastScrollView(View fastScrollView) {
         m_fastScrollView = fastScrollView;
-        checkIsIsAdapterEmpty();
+        checkIfIsAdapterEmpty();
     }
 }

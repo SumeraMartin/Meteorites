@@ -40,7 +40,7 @@ public class MeteoritesProvider {
 
     public static List<Meteorite> getMeteorites() throws CannotProvideDataException {
         List<Meteorite> meteorites = getMeteoritesFromServer(DEFAULT_YEAR);
-        MeteoritesCache.saveMeteorites(meteorites);
+        MeteoritesCache.saveNewMeteorites(meteorites);
         return meteorites;
     }
 
@@ -73,7 +73,6 @@ public class MeteoritesProvider {
 
     private static List<Meteorite> createFromJson(String jsonData) {
         Type type = new TypeToken<List<Meteorite>>(){}.getType();
-        Log.d("sumera", jsonData);
         return new GsonBuilder()
                 .registerTypeAdapter(Date.class, new TimestampJsonDeserializer())
                 .setExclusionStrategies(new ExclusionStrategy() {
@@ -94,8 +93,10 @@ public class MeteoritesProvider {
     private static Request createRequest(int sinceYear) {
         String query = String.format(YEAR_QUERY, "" + sinceYear + "-01-01T00:00:00.000");
         String url = URL + "?" + QUERY_PARAM + "=" + urlEncode(query);
-        Log.e("Sumera", url);
-        return new Request.Builder().url(url).build();
+        return new Request.Builder()
+                .url(url)
+                .addHeader("X-App-Token", "pSmeTIMmJVzTk5BqVOGa7An4C")
+                .build();
     }
 
     private static String urlEncode(String url) {

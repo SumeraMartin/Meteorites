@@ -12,10 +12,8 @@ public class MapUtils {
     private static final double EARTHRADIUS = 6366198;
 
     /**
-     * Add to LatLngBounds.Builder two corner points which ensures max zoom to bounds
-     * @param builder
-     * @param minDistanceFromCenter Distance is given in metres
-     * @return
+     * Calculate north-east and south-west corner points which ensures max zoom to bounds
+     * and add to builder
      */
     public static LatLngBounds createBoundsWithMaxZoom(LatLngBounds.Builder builder, int minDistanceFromCenter) {
         LatLngBounds bounds = builder.build();
@@ -25,15 +23,12 @@ public class MapUtils {
         LatLng southWest = move(center, -minDistanceFromCenter, -minDistanceFromCenter);
         builder.include(southWest);
         builder.include(northEast);
+
         return builder.build();
     }
 
     /**
      * Create new LatLng which is located in north-east direction from start point
-     * @param startPoint
-     * @param distanceToNorth
-     * @param distanceToEast
-     * @return
      */
     private static LatLng move(LatLng startPoint, double distanceToNorth, double distanceToEast) {
         double lonDiff = meterToLongitude(distanceToEast, startPoint.latitude);

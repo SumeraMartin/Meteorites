@@ -41,8 +41,10 @@ public class MeteoriteDetailActivity extends AppCompatActivity {
     private void initializeMeteoriteDetailFragment(Meteorite meteorite) {
         Bundle arguments = new Bundle();
         arguments.putString(MeteoriteDetailFragment.METEORITE_ID_KEY, meteorite.getId());
+
         MeteoriteDetailFragment fragment = new MeteoriteDetailFragment();
         fragment.setArguments(arguments);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.meteorite_detail_container, fragment)

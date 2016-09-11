@@ -7,20 +7,23 @@
     <string name="title_meteorite_detail">Meteorite Detail</string>
     <string name="title_activity_show_meteorite">Map</string>
 
+    <string name="menu_refresh">Refresh</string>
     <string name="try_again">Try again</string>
-
-    <string name="last_udpate">Last update : </string>
+    <string name="last_udpate">Last update:</string>
 
     <!-- Alert dialog for error occured during network request !-->
-    <string name="cant_access_data_title">Can\'t access meteorites data</string>
-    <string name="cant_access_data_description">Check your internet connection and try it again</string>
+    <string name="cant_access_data_title">New data are not available</string>
 
     <!-- Empty view for recyclerview with no data !-->
     <string name="no_data_title">No data available :-(</string>
-    <string name="no_data_description">Try to connect to the internet and try it again. \n Swipe down to refresh</string>
 
     <!-- Progress dialog for network request !-->
     <string name="network_request_title">Please wait</string>
     <string name="network_request_description">Downloading data from NASA server...</string>
+
+    <!-- Meteorite detail info window !-->
+    <string name="class_title">Class</string>
+    <string name="mass_title">Mass</string>
+    <string name="location_title">Location</string>
 
 </resources>

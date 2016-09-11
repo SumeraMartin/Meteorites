@@ -1,60 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sumera.meteorites.view.EmptyableFastScrollRecyclerView
-        android:id="@+id/meteorite_list"
-        android:name="com.sumera.meteorites.MeteoriteListFragment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="com.sumera.meteorites.MainActivity"
-        tools:listitem="@layout/meteorite_list_item"/>
+        android:layout_marginRight="16dp" >
 
-    <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
-        android:id="@+id/fast_scroller"
-        android:layout_width="15dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        app:rfs_barColor="@color/colorPrimaryDark"
-        app:rfs_handleColor="@color/colorPrimaryDark"/>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/recycler_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <LinearLayout
+        <com.sumera.meteorites.view.EmptyableFastScrollRecyclerView
+            android:id="@+id/meteorite_list"
+            android:name="com.sumera.meteorites.MeteoriteListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            android:gravity="top"
-            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="28dp"
-                android:gravity="center"
-                android:textColor="@color/dark_grey"
-                android:text="@string/no_data_title" />
+            app:layoutManager="LinearLayoutManager"
+            tools:context="com.sumera.meteorites.MainActivity"
+            tools:listitem="@layout/meteorite_list_item"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:textColor="@color/light_grey"
-                android:text="@string/no_data_description" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-        </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false" >
 
-    </android.support.v4.widget.NestedScrollView>
+        <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
+            android:id="@+id/fast_scroller"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            app:rfs_barColor="@color/colorPrimaryDark"
+            app:rfs_handleColor="@color/colorPrimaryDark"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/recycler_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="28dp"
+            android:gravity="center"
+            android:textColor="@color/dark_grey"
+            android:text="@string/no_data_title" />
+
+        <Button
+            android:id="@+id/try_again_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="@color/light_blue"
+            android:text="@string/try_again"
+            style="?android:attr/borderlessButtonStyle" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
