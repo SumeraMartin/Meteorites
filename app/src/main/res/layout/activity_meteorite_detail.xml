@@ -25,7 +25,7 @@
     <FrameLayout
         android:id="@+id/meteorite_detail_container"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
-
+        android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
 
 </android.support.design.widget.CoordinatorLayout>
