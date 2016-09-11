@@ -16,7 +16,7 @@ import com.sumera.meteorites.utils.DoubleUtils;
 
 public class MeteoriteInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
-    private LayoutInflater m_inflater;
+    private final LayoutInflater m_inflater;
 
     public MeteoriteInfoWindowAdapter(LayoutInflater inflater) {
         m_inflater = inflater;

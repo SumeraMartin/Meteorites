@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -30,7 +31,7 @@ public class TimestampJsonDeserializer implements JsonDeserializer<Date> {
         String date = element.getAsString();
 
         TimeZone tz = TimeZone.getTimeZone("UTC");
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss", Locale.getDefault());
         formater.setTimeZone(tz);
 
         try {

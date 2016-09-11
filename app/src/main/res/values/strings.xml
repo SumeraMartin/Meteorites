@@ -1,13 +1,8 @@
 <resources>
 
     <string name="app_name">Meteorites</string>
-    <string name="title_meteoirte_list">Meteorites</string>
     <string name="title_meteoirte_detail">Meteorite Detail</string>
-    <string name="title_meteorite_list">Meteorites</string>
-    <string name="title_meteorite_detail">Meteorite Detail</string>
-    <string name="title_activity_show_meteorite">Map</string>
 
-    <string name="menu_refresh">Refresh</string>
     <string name="try_again">Try again</string>
     <string name="last_udpate">Last update:</string>
 

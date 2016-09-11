@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 public class MapUtils {
 
-    private static final double EARTHRADIUS = 6366198;
+    private static final double EARTH_RADIUS = 6366198;
 
     /**
      * Calculate north-east and south-west corner points which ensures max zoom to bounds
@@ -38,13 +38,13 @@ public class MapUtils {
 
     private static double meterToLongitude(double meterToEast, double latitude) {
         double latArc = Math.toRadians(latitude);
-        double radius = Math.cos(latArc) * EARTHRADIUS;
+        double radius = Math.cos(latArc) * EARTH_RADIUS;
         double rad = meterToEast / radius;
         return Math.toDegrees(rad);
     }
 
     private static double meterToLatitude(double meterToNorth) {
-        double rad = meterToNorth / EARTHRADIUS;
+        double rad = meterToNorth / EARTH_RADIUS;
         return Math.toDegrees(rad);
     }
 

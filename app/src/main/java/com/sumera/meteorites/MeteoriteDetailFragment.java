@@ -115,20 +115,6 @@ public class MeteoriteDetailFragment extends Fragment implements
         m_meteorites = meteorites;
     }
 
-    /**
-     * When marker was added right after onMapReady(GoogleMap map) animation wasn't working correct.
-     * Small delay solved problem.
-     */
-    public void showMeteoriteWithInfoDelayed() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showMeteoriteWithInfoWindow(0);
-            }
-        }, 100);
-    }
-
     public void showMeteoritesDataFromToIndex(int from, int to) {
         if(m_googleMap != null && m_meteorites.size() > to) {
             m_googleMap.clear();
@@ -142,6 +128,20 @@ public class MeteoriteDetailFragment extends Fragment implements
         }
 
         showMeteoriteWithInfoWindow(m_meteorites.get(position));
+    }
+
+    /**
+     * When marker was added right after onMapReady(GoogleMap map) animation wasn't working correct.
+     * Small delay solved problem.
+     */
+    private void showMeteoriteWithInfoDelayed() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showMeteoriteWithInfoWindow(0);
+            }
+        }, 100);
     }
 
     private void showMeteoriteWithInfoWindow(Marker marker) {

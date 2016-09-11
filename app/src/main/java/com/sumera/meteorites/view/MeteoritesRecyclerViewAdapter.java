@@ -65,8 +65,6 @@ public class MeteoritesRecyclerViewAdapter extends RecyclerView.Adapter<Meteorit
 
     public class MeteoriteViewHolder extends RecyclerView.ViewHolder {
 
-        public Meteorite m_meteorite;
-
         private final View m_rootView;
 
         private final TextView m_nameTv;
@@ -81,7 +79,6 @@ public class MeteoritesRecyclerViewAdapter extends RecyclerView.Adapter<Meteorit
         }
 
         public void setItem(Meteorite meteorite) {
-            m_meteorite = meteorite;
             m_nameTv.setText(meteorite.getName());
             m_massTv.setText("" + meteorite.getMass());
         }

@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * When scroll is stopped show visible list items on map
      */
-    public RecyclerView.OnScrollListener m_scrollListener = new RecyclerView.OnScrollListener() {
+    private final RecyclerView.OnScrollListener m_scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    public Action1<List<Meteorite>> m_onMeteorites = new Action1<List<Meteorite>>() {
+    private final Action1<List<Meteorite>> m_onMeteorites = new Action1<List<Meteorite>>() {
         @Override
         public void call(List<Meteorite> meteorites) {
             m_recyclerViewAdapter.setNewData(meteorites);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    public Action1<Throwable> m_onErrorDuringSwipeRefresh = new Action1<Throwable>() {
+    private final Action1<Throwable> m_onErrorDuringSwipeRefresh = new Action1<Throwable>() {
         @Override
         public void call(Throwable throwable) {
             Log.e(TAG, throwable.toString());
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     };
 
-    public Action1<Throwable> m_onErrorDuringRequest = new Action1<Throwable>() {
+    private final Action1<Throwable> m_onErrorDuringRequest = new Action1<Throwable>() {
         @Override
         public void call(Throwable throwable) {
             Log.e(TAG, throwable.toString());
@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onMeteoriteClicked(Meteorite meteorite, int meteoritPosition) {
+    public void onMeteoriteClicked(Meteorite meteorite, int meteoritePosition) {
         if (m_hasTwoPaneLayout) {
-            showMeteoriteDataInDetailFragment(meteoritPosition);
+            showMeteoriteDataInDetailFragment(meteoritePosition);
         } else {
             Intent intent = new Intent(this, MeteoriteDetailActivity.class);
             intent.putExtra(MeteoriteDetailFragment.METEORITE_ID_KEY, meteorite.getId());
@@ -285,9 +285,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setLastUpdateTimeToToolbar() {
-        long milisecondsFromLastUpdate = MeteoritesCache.getLastDatabaseUpdateTimeInMiliseconds();
+        long millisecondsFromLastUpdate = MeteoritesCache.getLastDatabaseUpdateTimeInMiliseconds();
         String format = "dd/MM/yyyy hh:mm:ss";
-        String dateTime = DateFormater.getDateFromMilliseconds(milisecondsFromLastUpdate, format);
+        String dateTime = DateFormater.getDateFromMilliseconds(millisecondsFromLastUpdate, format);
         m_toolbar.setSubtitle(getResources().getString(R.string.last_udpate) + " " + dateTime);
     }
 

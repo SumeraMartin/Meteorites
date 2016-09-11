@@ -11,7 +11,7 @@ import com.sumera.meteorites.R;
 
 public class RecyclerViewLineDivider extends RecyclerView.ItemDecoration {
 
-    private Drawable m_divider;
+    private final Drawable m_divider;
 
     public RecyclerViewLineDivider(Context context) {
         m_divider = ResourcesCompat.getDrawable(context.getResources(), R.drawable.line_divider, null);
