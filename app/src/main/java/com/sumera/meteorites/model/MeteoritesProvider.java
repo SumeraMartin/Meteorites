@@ -28,6 +28,10 @@ public class MeteoritesProvider {
 
     private static final String TAG = MeteoritesProvider.class.getSimpleName();
 
+    private static final String URL_TOKEN_HEADER_NAME = "X-App-Token";
+
+    private static final String URL_TOKEN_HEADER_VALUE = "pSmeTIMmJVzTk5BqVOGa7An4C";
+
     private static final String URL = "https://data.nasa.gov/resource/y77d-th95.json";
 
     private static final String QUERY_PARAM = "$where";
@@ -95,7 +99,7 @@ public class MeteoritesProvider {
         String url = URL + "?" + QUERY_PARAM + "=" + urlEncode(query);
         return new Request.Builder()
                 .url(url)
-                .addHeader("X-App-Token", "pSmeTIMmJVzTk5BqVOGa7An4C")
+                .addHeader(URL_TOKEN_HEADER_NAME, URL_TOKEN_HEADER_VALUE)
                 .build();
     }
 
