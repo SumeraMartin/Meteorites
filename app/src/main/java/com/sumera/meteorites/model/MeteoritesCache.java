@@ -21,7 +21,7 @@ public class MeteoritesCache {
 
     private static final String LAST_DATABASE_UPDATE = "last_refresh";
 
-    private static final long DATABASE_UPDATE_INTERVAL =  10000; // minute
+    private static final long DATABASE_UPDATE_INTERVAL =  24 * 60 *1000; // One day
 
     public static List<Meteorite> getMeteorites() {
         Realm realm = RealmUtils.getRealmInstance();
