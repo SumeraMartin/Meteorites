@@ -1,4 +1,4 @@
-# BarcodeScanner
+# Meteorites
 
 Aplikacia slúži no zobrazenie padnutých meteoritov na zem od roku 2011. 
 Dáta čerpá zo stránky [Nasa](https://data.nasa.gov/view/ak9y-cwf9ä)
