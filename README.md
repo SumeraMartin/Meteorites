@@ -9,4 +9,6 @@ Obsahuje dva hlavné prvky:
 2. Mapu kde je zobrazený meteorit s informáciami o ňom
 
 Aplikácia je implementovaná ako master-detail, 
-takže v portrait móde s dostatočné širokým displejom sú zobrazené obidve informácie
+takže v portrait móde s dostatočné širokým displejom sú zobrazené obidve informácie.
+
+Aplikácia bola vypracovaná ako zadanie na pracovný pohovor.
